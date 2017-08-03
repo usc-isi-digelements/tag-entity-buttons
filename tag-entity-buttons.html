@@ -1,0 +1,354 @@
+<!--
+Copyright 2017 Next Century Corporation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../fontawesome-iconset/fa-all.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../paper-styles/color.html">
+
+<!--
+A Polymer Element showing positive and negative buttons to classify tags.
+
+### Example
+```js
+var tags = {
+  tag1: {
+    database: '',
+    type: 'ad',
+    user: ''
+  },
+  tag2: {
+    database: 'positive',
+    type: 'ad',
+    user: ''
+  }
+};
+```
+
+```html
+<tag-manager tag-manager="{{tagManager}}"></tag-manager>
+<tag-entity-buttons
+  tag-manager="[[tagManager]]"
+  tags="[[tags]]">
+</tag-entity-buttons>
+```
+
+### Styling
+
+`<tag-entity-buttons>` provides the following custom properties and mixins for styling:
+
+Custom property        | Description                     | Default
+-----------------------|---------------------------------|--------
+`--tag-color`          | The color of the default tags.  | paper-grey-600
+`--tag-negative-color` | The color of the negative tags. | paper-red-600
+`--tag-positive-color` | The color of the positive tags. | paper-green-600
+
+@demo demo/index.html
+-->
+
+<dom-module id="tag-entity-buttons">
+  <template>
+    <style include="iron-flex iron-flex-alignment"></style>
+
+    <style>
+      :host {
+        display: block;
+      }
+
+      paper-icon-button {
+        color: var(--tag-color, --paper-grey-600);
+        margin: 0 2px;
+        margin-bottom: 5px;
+        --paper-icon-button: {
+          height: 20px;
+          width: 20px;
+          padding: 0;
+        };
+      }
+
+      #negativeIcon {
+        color: var(--tag-negative-color, --paper-red-600);
+      }
+
+      #positiveIcon {
+        color: var(--tag-positive-color, --paper-green-600);
+      }
+
+      .text {
+        font-size: 14px;
+        margin-bottom: 5px;
+      }
+    </style>
+
+    <template is="dom-if" if="[[show]]">
+      <template is="dom-if" if="[[tag]]">
+        <div class="layout vertical center background">
+          <strong class="text">[[tag]]</strong>
+
+          <div class="layout horizontal center">
+            <paper-icon-button id="negativeIcon"
+              icon="[[_getIcon('negative', _classificationFromDatabase, _classificationFromUser)]]"
+              title="Toggle Negative Tag"
+              on-tap="_toggleNegative">
+            </paper-icon-button>
+
+            <paper-icon-button id="positiveIcon"
+              icon="[[_getIcon('positive', _classificationFromDatabase, _classificationFromUser)]]"
+              title="Toggle Positive Tag"
+              on-tap="_togglePositive">
+            </paper-icon-button>
+          </div>
+        </div>
+      </template>
+    </template>
+  </template>
+
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'tag-entity-buttons',
+
+      properties: {
+        /**
+         * (Optional)
+         *
+         * The entity ID.
+         *
+         * @type {String}
+         * @default ''
+         */
+        entityId: {
+          type: String,
+          value: ''
+        },
+
+        /**
+         * (Optional)
+         *
+         * The entity type.
+         *
+         * @type {String}
+         * @default 'ad'
+         */
+        entityType: {
+          type: String,
+          value: 'ad'
+        },
+
+        /**
+         * (Optional|Output)
+         *
+         * Whether to show the buttons.
+         *
+         * @type {Boolean}
+         * @default true
+         */
+        show: {
+          type: Boolean,
+          value: true
+        },
+
+        /**
+         * (Optional|Output)
+         *
+         * The selected tag in `tags`.
+         *
+         * @type {String}
+         * @default ''
+         */
+        tag: {
+          notify: true,
+          type: String,
+          value: ''
+        },
+
+        /**
+         * (Required)
+         *
+         * The tag manager object with the following callbacks:
+         * - `addListener`
+         * - `removeListener`
+         * - `setEntityTag`
+         *
+         * @type {Object}
+         */
+        tagManager: {
+          observer: '_addListenerToTagManager',
+          type: Object
+        },
+
+        /**
+         * (Optional|Output)
+         *
+         * A collection of tags mapped to tag objects that contain `database`, `type`, and `user` properties.
+         *
+         * @type {Object}
+         * @default {}
+         */
+        tags: {
+          notify: true,
+          type: Object,
+          value: function() {
+            return {};
+          }
+        },
+
+        /**
+         * The classification from the `database` property of the object in `tags` corresponding to the selected `tag`.
+         *
+         * @type {String}
+         * @default ''
+         * @private
+         */
+        _classificationFromDatabase: {
+          type: String,
+          value: ''
+        },
+
+        /**
+         * The classification from the `user` property of the object in `tags` corresponding to the selected `tag`.
+         *
+         * @type {String}
+         * @default ''
+         * @private
+         */
+        _classificationFromUser: {
+          type: String,
+          value: ''
+        },
+
+        /**
+         * The listener ID.
+         *
+         * @type {Number}
+         * @default -1
+         * @private
+         */
+        _listenerId: {
+          type: Number,
+          value: -1
+        }
+      },
+
+      observers: [
+        '_handleDataChange(tags, tags.*, tag)'
+      ],
+
+      detached: function() {
+        if(this.tagManager && this.tagManager.removeListener && this._listenerId >= 0) {
+          this.tagManager.removeListener(this._listenerId);
+        }
+      },
+
+      /**
+       * Adds show and tags listeners to the tag manager.
+       *
+       * @private
+       */
+      _addListenerToTagManager: function() {
+        if(this.tagManager && this.tagManager.addListener) {
+          var self = this;
+          var showListener = function(show) {
+            self.set('show', show);
+          };
+          var tagsListener = function(tag) {
+            self.set('tag', tag);
+          };
+          this._listenerId = this.tagManager.addListener(showListener, tagsListener);
+        }
+      },
+
+      /**
+       * Returns the classification icon.
+       *
+       * @param {String} type
+       * @param {String} classificationFromDatabase
+       * @param {String} classificationFromUser
+       * @return {String}
+       * @private
+       */
+      _getIcon: function(type, classificationFromDatabase, classificationFromUser) {
+        if(!classificationFromDatabase && classificationFromUser === type) {
+          return type === 'positive' ? 'fa:check-circle-o' : 'fa:times-circle-o';
+        }
+        if(classificationFromDatabase === type && !classificationFromUser) {
+          return 'fa:circle';
+        }
+        if(classificationFromDatabase && classificationFromUser) {
+          // True positive/negative.
+          if(classificationFromDatabase === classificationFromUser) {
+            return classificationFromUser === type ? (type === 'positive' ? 'fa:check-circle' : 'fa:times-circle') : 'fa:circle-o';
+          }
+          // False positive/negative.
+          return classificationFromUser === type ? (type === 'positive' ? 'fa:check-circle-o' : 'fa:times-circle-o') : 'fa:circle';
+        }
+        return 'fa:circle-o';
+      },
+
+      /**
+       * Updates the classification properties.
+       *
+       * @private
+       */
+      _handleDataChange: function() {
+        var classification = this.tags[this.tag] || {};
+        this.set('_classificationFromDatabase', classification.database || '');
+        this.set('_classificationFromUser', classification.user || '');
+      },
+
+      /**
+       * Toggles the negative user tag classification.
+       *
+       * @private
+       */
+      _toggleNegative: function() {
+        this.setTag((this._classificationFromUser === 'negative' ? '' : 'negative'), this.entityId, this.entityType, this.tag);
+      },
+
+      /**
+       * Toggles the positive user tag classification.
+       *
+       * @private
+       */
+      _togglePositive: function() {
+        this.setTag((this._classificationFromUser === 'positive' ? '' : 'positive'), this.entityId, this.entityType, this.tag);
+      },
+
+      /**
+       * Sets the given tag to the given classification.
+       *
+       * @param {String} classification Either 'positive', 'negative', or ''.
+       * @param {String} entityId
+       * @param {String} entityType
+       * @param {String} tag
+       */
+      setTag: function(classification, entityId, entityType, tag) {
+        this.set('tags.' + tag, {
+          database: (this.tags[tag] ? this.tags[tag].database : '') || '',
+          type: entityType,
+          user: classification
+        });
+        if(this.tagManager && this.tagManager.setEntityTag) {
+          this.tagManager.setEntityTag(classification, entityId, entityType, tag);
+        }
+      }
+    });
+  })();
+  </script>
+</dom-module>

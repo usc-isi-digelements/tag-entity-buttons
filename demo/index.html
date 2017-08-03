@@ -1,0 +1,115 @@
+<!--
+Copyright 2017 Next Century Corporation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+  <link rel="import" href="../tag-entity-buttons.html">
+</head>
+
+<body unresolved>
+  <template is="dom-bind" id="demo">
+    <p>======= INPUT =======</p>
+    <p>Entity ID:  testEntityId</p>
+    <p>Entity Type:  testEntityType</p>
+    <p>Tags: [[stringify(tags)]]</p>
+
+    <p>===== ELEMENT 1 =====</p>
+    <p>Tag:  tag1</p>
+    <p>Arguments of setEntityTag: [[stringify(args.tag1)]]</p>
+
+    <tag-entity-buttons
+      entity-id="testEntityId"
+      entity-type="testEntityType"
+      tag="tag1"
+      tag-manager="[[tagManager]]"
+      tags="{{tags}}">
+    </tag-entity-buttons>
+
+    <p>===== ELEMENT 2 =====</p>
+    <p>Tag:  tag2</p>
+    <p>Arguments of setEntityTag: [[stringify(args.tag2)]]</p>
+
+    <tag-entity-buttons
+      entity-id="testEntityId"
+      entity-type="testEntityType"
+      tag="tag2"
+      tag-manager="[[tagManager]]"
+      tags="{{tags}}">
+    </tag-entity-buttons>
+
+    <p>===== ELEMENT 3 =====</p>
+    <p>Tag:  tag3</p>
+    <p>Arguments of setEntityTag: [[stringify(args.tag3)]]</p>
+
+    <tag-entity-buttons
+      entity-id="testEntityId"
+      entity-type="testEntityType"
+      tag="tag3"
+      tag-manager="[[tagManager]]"
+      tags="{{tags}}">
+    </tag-entity-buttons>
+  </template>
+
+  <script>
+    (function(document) {
+      var demo = document.querySelector('#demo');
+
+      demo.args = {
+        tag1: {},
+        tag2: {},
+        tag3: {}
+      };
+      demo.tag = 'tag1';
+      demo.tags = {
+        tag1: {
+          database: '',
+          type: '',
+          user: ''
+        },
+        tag2: {
+          database: 'positive',
+          type: '',
+          user: ''
+        },
+        tag3: {
+          database: 'negative',
+          type: '',
+          user: ''
+        }
+      };
+      demo.tagManager = {
+        addListener: function() {},
+        removeListener: function() {},
+        setEntityTag: function(classification, entityId, entityType, tag) {
+          demo.set('args.' + tag, {
+            classification: classification,
+            entityId: entityId,
+            entityType: entityType,
+            tag: tag
+          });
+        }
+      };
+
+      demo.stringify = function(object) {
+        return JSON.stringify(object);
+      };
+    })(document);
+  </script>
+</body>
+</html>
