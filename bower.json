@@ -1,7 +1,7 @@
 {
   "name": "tag-entity-buttons",
-  "description": "A Polymer Element showing positive and negative buttons to classify tags.",
-  "version": "1.0.0",
+  "description": "A Polymer Element showing buttons to classify an entity as either positive or negative for one or more tags.",
+  "version": "1.0.1",
   "authors": ["Next Century Corporation"],
   "license": "Apache-2.0",
   "keywords": [

@@ -21,21 +21,32 @@ limitations under the License.
 <link rel="import" href="../paper-styles/color.html">
 
 <!--
-A Polymer Element showing positive and negative buttons to classify tags.
+A Polymer Element showing buttons to classify an entity as either positive or negative for one or more tags.
 
 ### Example
 ```js
+var classification1 = {
+  database: '',
+  type: 'ad',
+  user: ''
+};
+
+var classification2 = {
+  database: 'positive',
+  type: 'ad',
+  user: ''
+};
+
+var classification3 = {
+  database: 'negative',
+  type: 'ad',
+  user: ''
+};
+
 var tags = {
-  tag1: {
-    database: '',
-    type: 'ad',
-    user: ''
-  },
-  tag2: {
-    database: 'positive',
-    type: 'ad',
-    user: ''
-  }
+  tag1: classification1,
+  tag2: classification2,
+  tag3: classification3
 };
 ```
 
@@ -51,11 +62,13 @@ var tags = {
 
 `<tag-entity-buttons>` provides the following custom properties and mixins for styling:
 
-Custom property        | Description                     | Default
------------------------|---------------------------------|--------
-`--tag-color`          | The color of the default tags.  | paper-grey-600
-`--tag-negative-color` | The color of the negative tags. | paper-red-600
-`--tag-positive-color` | The color of the positive tags. | paper-green-600
+Custom property                     | Description                                       | Default
+------------------------------------|---------------------------------------------------|--------
+`--tag-button-color`                | The color of the untagged buttons.                | paper-grey-600
+`--tag-button-negative-color`       | The color of the negatively tagged buttons.       | paper-red-600
+`--tag-button-negative-hover-color` | The hover color of the negatively tagged buttons. | paper-red-900
+`--tag-button-positive-color`       | The color of the positively tagged buttons.       | paper-green-600
+`--tag-button-positive-hover-color` | The hover color of the positively tagged buttons. | paper-green-900
 
 @demo demo/index.html
 -->
@@ -70,7 +83,7 @@ Custom property        | Description                     | Default
       }
 
       paper-icon-button {
-        color: var(--tag-color, --paper-grey-600);
+        color: var(--tag-button-color, --paper-grey-600);
         margin: 0 2px;
         margin-bottom: 5px;
         --paper-icon-button: {
@@ -81,11 +94,19 @@ Custom property        | Description                     | Default
       }
 
       #negativeIcon {
-        color: var(--tag-negative-color, --paper-red-600);
+        color: var(--tag-button-negative-color, --paper-red-600);
       }
 
       #positiveIcon {
-        color: var(--tag-positive-color, --paper-green-600);
+        color: var(--tag-button-positive-color, --paper-green-600);
+      }
+
+      #negativeIcon:hover {
+        color: var(--tag-button-negative-hover-color, --paper-red-900);
+      }
+
+      #positiveIcon:hover {
+        color: var(--tag-button-positive-hover-color, --paper-green-900);
       }
 
       .text {
@@ -196,7 +217,7 @@ Custom property        | Description                     | Default
         /**
          * (Optional|Output)
          *
-         * A collection of tags mapped to tag objects that contain `database`, `type`, and `user` properties.
+         * A collection of tags mapped to classification objects that contain `database`, `type`, and `user` properties.
          *
          * @type {Object}
          * @default {}
@@ -313,39 +334,44 @@ Custom property        | Description                     | Default
       },
 
       /**
-       * Toggles the negative user tag classification.
+       * Toggles the user's negative classification for the `tag`.
        *
        * @private
        */
       _toggleNegative: function() {
-        this.setTag((this._classificationFromUser === 'negative' ? '' : 'negative'), this.entityId, this.entityType, this.tag);
+        var databaseClassification = (this.tags[this.tag] ? this.tags[this.tag].database : '') || '';
+        var userClassification = (this._classificationFromUser === 'negative' ? '' : 'negative');
+        this.setTag(databaseClassification, userClassification, this.entityId, this.entityType, this.tag);
       },
 
       /**
-       * Toggles the positive user tag classification.
+       * Toggles the user's positive classification for the `tag`.
        *
        * @private
        */
       _togglePositive: function() {
-        this.setTag((this._classificationFromUser === 'positive' ? '' : 'positive'), this.entityId, this.entityType, this.tag);
+        var databaseClassification = (this.tags[this.tag] ? this.tags[this.tag].database : '') || '';
+        var userClassification = (this._classificationFromUser === 'positive' ? '' : 'positive');
+        this.setTag(databaseClassification, userClassification, this.entityId, this.entityType, this.tag);
       },
 
       /**
-       * Sets the given tag to the given classification.
+       * Sets the given classifications for the given tag for the entity with the given ID/type.
        *
-       * @param {String} classification Either 'positive', 'negative', or ''.
+       * @param {String} databaseClassification Either 'positive', 'negative', or ''.
+       * @param {String} userClassification Either 'positive', 'negative', or ''.
        * @param {String} entityId
        * @param {String} entityType
        * @param {String} tag
        */
-      setTag: function(classification, entityId, entityType, tag) {
+      setTag: function(databaseClassification, userClassification, entityId, entityType, tag) {
         this.set('tags.' + tag, {
-          database: (this.tags[tag] ? this.tags[tag].database : '') || '',
+          database: databaseClassification,
           type: entityType,
-          user: classification
+          user: userClassification
         });
         if(this.tagManager && this.tagManager.setEntityTag) {
-          this.tagManager.setEntityTag(classification, entityId, entityType, tag);
+          this.tagManager.setEntityTag(userClassification, entityId, entityType, tag);
         }
       }
     });
