@@ -64,6 +64,7 @@ var tags = {
 
 Custom property                     | Description                                       | Default
 ------------------------------------|---------------------------------------------------|--------
+`--tag-background-color`            | The background color of the element.              | paper-grey-400
 `--tag-button-color`                | The color of the untagged buttons.                | paper-grey-600
 `--tag-button-negative-color`       | The color of the negatively tagged buttons.       | paper-red-600
 `--tag-button-negative-hover-color` | The hover color of the negatively tagged buttons. | paper-red-900
@@ -79,18 +80,25 @@ Custom property                     | Description                               
 
     <style>
       :host {
-        display: block;
+        display: inline-block;
       }
 
       paper-icon-button {
         color: var(--tag-button-color, --paper-grey-600);
         margin: 0 2px;
-        margin-bottom: 5px;
         --paper-icon-button: {
           height: 20px;
           width: 20px;
           padding: 0;
         };
+      }
+
+      .background {
+        background-color: var(--tag-background-color, --paper-grey-400);
+        border-radius: 5px;
+        line-height: 20px;
+        max-height: 45px;
+        padding: 5px;
       }
 
       #negativeIcon {
@@ -120,7 +128,7 @@ Custom property                     | Description                               
         <div class="layout vertical center background">
           <strong class="text">[[tag]]</strong>
 
-          <div class="layout horizontal center">
+          <div class="layout horizontal center-justified">
             <paper-icon-button id="negativeIcon"
               icon="[[_getIcon('negative', _classificationFromDatabase, _classificationFromUser)]]"
               title="Toggle Negative Tag"
