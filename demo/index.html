@@ -18,57 +18,67 @@ limitations under the License.
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-  <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+  <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
   <link rel="import" href="../tag-entity-buttons.html">
 </head>
 
 <body unresolved>
-  <template is="dom-bind" id="demo">
-    <p>======= INPUT =======</p>
-    <p>Entity ID:  testEntityId</p>
-    <p>Entity Type:  testEntityType</p>
-    <p>Tags: [[stringify(tags)]]</p>
+  <dom-bind id="demo">
+    <template is="dom-bind">
+      <p>======= INPUT =======</p>
+      <p>Entity ID:  testEntityId</p>
+      <p>Entity Type:  testEntityType</p>
+      <template is="dom-if" if="[[stringify]]">
+        <p>Tags: [[stringify(tags)]]</p>
+      </template>
 
-    <p>===== ELEMENT 1 =====</p>
-    <p>Tag:  tag1</p>
-    <p>Arguments of setEntityTag: [[stringify(args.tag1)]]</p>
+      <p>===== ELEMENT 1 =====</p>
+      <p>Tag:  tag1</p>
+      <template is="dom-if" if="[[stringify]]">
+        <p>Arguments of setEntityTag: [[stringify(args.tag1)]]</p>
+      </template>
 
-    <tag-entity-buttons
-      entity-id="testEntityId"
-      entity-type="testEntityType"
-      tag="tag1"
-      tag-manager="[[tagManager]]"
-      tags="{{tags}}">
-    </tag-entity-buttons>
+      <tag-entity-buttons
+        entity-id="testEntityId"
+        entity-type="testEntityType"
+        tag="tag1"
+        tag-manager="[[tagManager]]"
+        tags="{{tags}}">
+      </tag-entity-buttons>
 
-    <p>===== ELEMENT 2 =====</p>
-    <p>Tag:  tag2</p>
-    <p>Arguments of setEntityTag: [[stringify(args.tag2)]]</p>
+      <p>===== ELEMENT 2 =====</p>
+      <p>Tag:  tag2</p>
+      <template is="dom-if" if="[[stringify]]">
+        <p>Arguments of setEntityTag: [[stringify(args.tag2)]]</p>
+      </template>
 
-    <tag-entity-buttons
-      entity-id="testEntityId"
-      entity-type="testEntityType"
-      tag="tag2"
-      tag-manager="[[tagManager]]"
-      tags="{{tags}}">
-    </tag-entity-buttons>
+      <tag-entity-buttons
+        entity-id="testEntityId"
+        entity-type="testEntityType"
+        tag="tag2"
+        tag-manager="[[tagManager]]"
+        tags="{{tags}}">
+      </tag-entity-buttons>
 
-    <p>===== ELEMENT 3 =====</p>
-    <p>Tag:  tag3</p>
-    <p>Arguments of setEntityTag: [[stringify(args.tag3)]]</p>
+      <p>===== ELEMENT 3 =====</p>
+      <p>Tag:  tag3</p>
+      <template is="dom-if" if="[[stringify]]">
+        <p>Arguments of setEntityTag: [[stringify(args.tag3)]]</p>
+      </template>
 
-    <tag-entity-buttons
-      entity-id="testEntityId"
-      entity-type="testEntityType"
-      tag="tag3"
-      tag-manager="[[tagManager]]"
-      tags="{{tags}}">
-    </tag-entity-buttons>
-  </template>
+      <tag-entity-buttons
+        entity-id="testEntityId"
+        entity-type="testEntityType"
+        tag="tag3"
+        tag-manager="[[tagManager]]"
+        tags="{{tags}}">
+      </tag-entity-buttons>
+    </template>
+  </dom-bind>
 
   <script>
     (function(document) {
-      var demo = document.querySelector('#demo');
+      var demo = document.querySelector('dom-bind');
 
       demo.args = {
         tag1: {},
