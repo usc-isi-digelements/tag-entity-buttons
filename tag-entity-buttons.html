@@ -336,7 +336,7 @@ Custom property                     | Description                               
        * @private
        */
       _handleDataChange: function() {
-        var classification = this.tags[this.tag] || {};
+        var classification = this.tags ? (this.tags[this.tag] || {}) : {};
         this.set('_classificationFromDatabase', classification.database || '');
         this.set('_classificationFromUser', classification.user || '');
       },
