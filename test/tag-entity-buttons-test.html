@@ -54,7 +54,7 @@ limitations under the License.
       });
 
       test('does not have elements because tag is empty', function() {
-        expect(element.$$('strong')).to.not.exist;
+        expect(element.$$('span')).to.not.exist;
         expect(element.$$('paper-icon-button[id="negativeIcon"]')).to.not.exist;
         expect(element.$$('paper-icon-button[id="positiveIcon"]')).to.not.exist;
       });
@@ -62,8 +62,8 @@ limitations under the License.
       test('setting tag does show elements', function(done) {
         element.tag = 'myTag';
         flush(function() {
-          expect(element.$$('strong')).to.exist;
-          expect(element.$$('strong').innerHTML).to.equal('myTag');
+          expect(element.$$('span')).to.exist;
+          expect(element.$$('span').innerHTML).to.equal('myTag');
           expect(element.$$('paper-icon-button[id="negativeIcon"]')).to.exist;
           expect(element.$$('paper-icon-button[id="negativeIcon"]').title).to.equal('Toggle Negative Tag');
           expect(element.$$('paper-icon-button[id="negativeIcon"]').icon).to.equal('fa:circle-o');
@@ -329,8 +329,8 @@ limitations under the License.
       });
 
       test('does have text elements', function() {
-        expect(element.$$('strong')).to.exist;
-        expect(element.$$('strong').innerHTML).to.equal('tag1');
+        expect(element.$$('span')).to.exist;
+        expect(element.$$('span').innerHTML).to.equal('tag1');
       });
 
       test('does have icon elements', function() {
@@ -506,7 +506,7 @@ limitations under the License.
       });
 
       test('does not have elements because show is false', function() {
-        expect(element.$$('strong')).to.not.exist;
+        expect(element.$$('span')).to.not.exist;
         expect(element.$$('paper-icon-button[id="negativeIcon"]')).to.not.exist;
         expect(element.$$('paper-icon-button[id="positiveIcon"]')).to.not.exist;
       });

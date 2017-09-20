@@ -83,6 +83,16 @@ Custom property                     | Description                               
         display: inline-block;
       }
 
+      .background {
+        @apply --layout-vertical;
+        @apply --layout-center;
+        background-color: var(--tag-background-color, var(--paper-grey-400));
+        border-radius: 5px;
+        line-height: 20px;
+        max-height: 45px;
+        padding: 5px;
+      }
+
       paper-icon-button {
         color: var(--tag-button-color, var(--paper-grey-600));
         margin: 0 2px;
@@ -91,14 +101,6 @@ Custom property                     | Description                               
           width: 20px;
           padding: 0;
         };
-      }
-
-      .background {
-        background-color: var(--tag-background-color, var(--paper-grey-400));
-        border-radius: 5px;
-        line-height: 20px;
-        max-height: 45px;
-        padding: 5px;
       }
 
       #negativeIcon {
@@ -119,14 +121,15 @@ Custom property                     | Description                               
 
       .text {
         font-size: 14px;
+        font-weight: 500;
         margin-bottom: 5px;
       }
     </style>
 
     <template is="dom-if" if="[[show]]">
       <template is="dom-if" if="[[tag]]">
-        <div class="layout vertical center background">
-          <strong class="text">[[tag]]</strong>
+        <div class="background">
+          <span class="text">[[tag]]</span>
 
           <div class="layout horizontal center-justified">
             <paper-icon-button id="negativeIcon"
