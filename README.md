@@ -43,6 +43,7 @@ var tags = {
 
 Custom property                     | Description                                       | Default
 ------------------------------------|---------------------------------------------------|--------
+`--tag-background-color`            | The background color of the element.              | paper-grey-300
 `--tag-button-color`                | The color of the untagged buttons.                | paper-grey-600
 `--tag-button-negative-color`       | The color of the negatively tagged buttons.       | paper-red-600
 `--tag-button-negative-hover-color` | The hover color of the negatively tagged buttons. | paper-red-900
