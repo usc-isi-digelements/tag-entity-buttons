@@ -55,8 +55,8 @@ limitations under the License.
 
       test('does not have elements because tag is empty', function() {
         expect(element.$$('span')).to.not.exist;
-        expect(element.$$('paper-icon-button[id="negativeIcon"]')).to.not.exist;
-        expect(element.$$('paper-icon-button[id="positiveIcon"]')).to.not.exist;
+        expect(element.$$('icon-button[id="negativeIcon"]')).to.not.exist;
+        expect(element.$$('icon-button[id="positiveIcon"]')).to.not.exist;
       });
 
       test('setting tag does show elements', function(done) {
@@ -64,12 +64,12 @@ limitations under the License.
         flush(function() {
           expect(element.$$('span')).to.exist;
           expect(element.$$('span').innerHTML).to.equal('myTag');
-          expect(element.$$('paper-icon-button[id="negativeIcon"]')).to.exist;
-          expect(element.$$('paper-icon-button[id="negativeIcon"]').title).to.equal('Toggle Negative Tag');
-          expect(element.$$('paper-icon-button[id="negativeIcon"]').icon).to.equal('fa:circle-o');
-          expect(element.$$('paper-icon-button[id="positiveIcon"]')).to.exist;
-          expect(element.$$('paper-icon-button[id="positiveIcon"]').title).to.equal('Toggle Positive Tag');
-          expect(element.$$('paper-icon-button[id="positiveIcon"]').icon).to.equal('fa:circle-o');
+          expect(element.$$('icon-button[id="negativeIcon"]')).to.exist;
+          expect(element.$$('icon-button[id="negativeIcon"]').titleTooltip).to.equal('Toggle Negative Tag');
+          expect(element.$$('icon-button[id="negativeIcon"]').icon).to.equal('fa:circle-o');
+          expect(element.$$('icon-button[id="positiveIcon"]')).to.exist;
+          expect(element.$$('icon-button[id="positiveIcon"]').titleTooltip).to.equal('Toggle Positive Tag');
+          expect(element.$$('icon-button[id="positiveIcon"]').icon).to.equal('fa:circle-o');
           done();
         });
       });
@@ -334,12 +334,12 @@ limitations under the License.
       });
 
       test('does have icon elements', function() {
-        expect(element.$$('paper-icon-button[id="negativeIcon"]')).to.exist;
-        expect(element.$$('paper-icon-button[id="negativeIcon"]').title).to.equal('Toggle Negative Tag');
-        expect(element.$$('paper-icon-button[id="negativeIcon"]').icon).to.equal('fa:circle-o');
-        expect(element.$$('paper-icon-button[id="positiveIcon"]')).to.exist;
-        expect(element.$$('paper-icon-button[id="positiveIcon"]').title).to.equal('Toggle Positive Tag');
-        expect(element.$$('paper-icon-button[id="positiveIcon"]').icon).to.equal('fa:circle');
+        expect(element.$$('icon-button[id="negativeIcon"]')).to.exist;
+        expect(element.$$('icon-button[id="negativeIcon"]').titleTooltip).to.equal('Toggle Negative Tag');
+        expect(element.$$('icon-button[id="negativeIcon"]').icon).to.equal('fa:circle-o');
+        expect(element.$$('icon-button[id="positiveIcon"]')).to.exist;
+        expect(element.$$('icon-button[id="positiveIcon"]').titleTooltip).to.equal('Toggle Positive Tag');
+        expect(element.$$('icon-button[id="positiveIcon"]').icon).to.equal('fa:circle');
       });
 
       test('changing tags does update icon styling', function(done) {
@@ -350,12 +350,12 @@ limitations under the License.
           }
         };
         flush(function() {
-          expect(element.$$('paper-icon-button[id="negativeIcon"]')).to.exist;
-          expect(element.$$('paper-icon-button[id="negativeIcon"]').title).to.equal('Toggle Negative Tag');
-          expect(element.$$('paper-icon-button[id="negativeIcon"]').icon).to.equal('fa:circle');
-          expect(element.$$('paper-icon-button[id="positiveIcon"]')).to.exist;
-          expect(element.$$('paper-icon-button[id="positiveIcon"]').title).to.equal('Toggle Positive Tag');
-          expect(element.$$('paper-icon-button[id="positiveIcon"]').icon).to.equal('fa:circle-o');
+          expect(element.$$('icon-button[id="negativeIcon"]')).to.exist;
+          expect(element.$$('icon-button[id="negativeIcon"]').titleTooltip).to.equal('Toggle Negative Tag');
+          expect(element.$$('icon-button[id="negativeIcon"]').icon).to.equal('fa:circle');
+          expect(element.$$('icon-button[id="positiveIcon"]')).to.exist;
+          expect(element.$$('icon-button[id="positiveIcon"]').titleTooltip).to.equal('Toggle Positive Tag');
+          expect(element.$$('icon-button[id="positiveIcon"]').icon).to.equal('fa:circle-o');
           done();
         });
       });
@@ -363,12 +363,12 @@ limitations under the License.
       test('changing _classificationFromDatabase does update icon styling', function(done) {
         element._classificationFromDatabase = 'negative';
         flush(function() {
-          expect(element.$$('paper-icon-button[id="negativeIcon"]')).to.exist;
-          expect(element.$$('paper-icon-button[id="negativeIcon"]').title).to.equal('Toggle Negative Tag');
-          expect(element.$$('paper-icon-button[id="negativeIcon"]').icon).to.equal('fa:circle');
-          expect(element.$$('paper-icon-button[id="positiveIcon"]')).to.exist;
-          expect(element.$$('paper-icon-button[id="positiveIcon"]').title).to.equal('Toggle Positive Tag');
-          expect(element.$$('paper-icon-button[id="positiveIcon"]').icon).to.equal('fa:circle-o');
+          expect(element.$$('icon-button[id="negativeIcon"]')).to.exist;
+          expect(element.$$('icon-button[id="negativeIcon"]').titleTooltip).to.equal('Toggle Negative Tag');
+          expect(element.$$('icon-button[id="negativeIcon"]').icon).to.equal('fa:circle');
+          expect(element.$$('icon-button[id="positiveIcon"]')).to.exist;
+          expect(element.$$('icon-button[id="positiveIcon"]').titleTooltip).to.equal('Toggle Positive Tag');
+          expect(element.$$('icon-button[id="positiveIcon"]').icon).to.equal('fa:circle-o');
           done();
         });
       });
@@ -376,12 +376,12 @@ limitations under the License.
       test('changing _classificationFromUser does update icon styling', function(done) {
         element._classificationFromUser = 'negative';
         flush(function() {
-          expect(element.$$('paper-icon-button[id="negativeIcon"]')).to.exist;
-          expect(element.$$('paper-icon-button[id="negativeIcon"]').title).to.equal('Toggle Negative Tag');
-          expect(element.$$('paper-icon-button[id="negativeIcon"]').icon).to.equal('fa:times-circle-o');
-          expect(element.$$('paper-icon-button[id="positiveIcon"]')).to.exist;
-          expect(element.$$('paper-icon-button[id="positiveIcon"]').title).to.equal('Toggle Positive Tag');
-          expect(element.$$('paper-icon-button[id="positiveIcon"]').icon).to.equal('fa:circle');
+          expect(element.$$('icon-button[id="negativeIcon"]')).to.exist;
+          expect(element.$$('icon-button[id="negativeIcon"]').titleTooltip).to.equal('Toggle Negative Tag');
+          expect(element.$$('icon-button[id="negativeIcon"]').icon).to.equal('fa:times-circle-o');
+          expect(element.$$('icon-button[id="positiveIcon"]')).to.exist;
+          expect(element.$$('icon-button[id="positiveIcon"]').titleTooltip).to.equal('Toggle Positive Tag');
+          expect(element.$$('icon-button[id="positiveIcon"]').icon).to.equal('fa:circle');
           done();
         });
       });
@@ -389,12 +389,12 @@ limitations under the License.
       test('changing tag does update icon styling', function(done) {
         element.tag = 'tag2';
         flush(function() {
-          expect(element.$$('paper-icon-button[id="negativeIcon"]')).to.exist;
-          expect(element.$$('paper-icon-button[id="negativeIcon"]').title).to.equal('Toggle Negative Tag');
-          expect(element.$$('paper-icon-button[id="negativeIcon"]').icon).to.equal('fa:circle-o');
-          expect(element.$$('paper-icon-button[id="positiveIcon"]')).to.exist;
-          expect(element.$$('paper-icon-button[id="positiveIcon"]').title).to.equal('Toggle Positive Tag');
-          expect(element.$$('paper-icon-button[id="positiveIcon"]').icon).to.equal('fa:check-circle-o');
+          expect(element.$$('icon-button[id="negativeIcon"]')).to.exist;
+          expect(element.$$('icon-button[id="negativeIcon"]').titleTooltip).to.equal('Toggle Negative Tag');
+          expect(element.$$('icon-button[id="negativeIcon"]').icon).to.equal('fa:circle-o');
+          expect(element.$$('icon-button[id="positiveIcon"]')).to.exist;
+          expect(element.$$('icon-button[id="positiveIcon"]').titleTooltip).to.equal('Toggle Positive Tag');
+          expect(element.$$('icon-button[id="positiveIcon"]').icon).to.equal('fa:check-circle-o');
           done();
         });
       });
@@ -507,8 +507,8 @@ limitations under the License.
 
       test('does not have elements because show is false', function() {
         expect(element.$$('span')).to.not.exist;
-        expect(element.$$('paper-icon-button[id="negativeIcon"]')).to.not.exist;
-        expect(element.$$('paper-icon-button[id="positiveIcon"]')).to.not.exist;
+        expect(element.$$('icon-button[id="negativeIcon"]')).to.not.exist;
+        expect(element.$$('icon-button[id="positiveIcon"]')).to.not.exist;
       });
     });
   </script>

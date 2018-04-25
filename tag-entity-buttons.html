@@ -15,9 +15,8 @@ limitations under the License.
 -->
 
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../fontawesome-iconset/fa-all.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
-<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../icon-button/icon-button.html">
 <link rel="import" href="../paper-styles/color.html">
 
 <!--
@@ -93,30 +92,19 @@ Custom property                     | Description                               
         padding: 5px;
       }
 
-      paper-icon-button {
-        color: var(--tag-button-color, var(--paper-grey-600));
+      icon-button {
+        --icon-button-color: var(--tag-button-color, var(--paper-grey-600));
         margin: 0 2px;
-        --paper-icon-button: {
-          height: 20px;
-          width: 20px;
-          padding: 0;
-        };
       }
 
       #negativeIcon {
-        color: var(--tag-button-negative-color, var(--paper-red-600));
+        --icon-button-color: var(--tag-button-negative-color, var(--paper-red-600));
+        --icon-button-hovering-color: var(--tag-button-negative-hover-color, var(--paper-red-900));
       }
 
       #positiveIcon {
-        color: var(--tag-button-positive-color, var(--paper-green-600));
-      }
-
-      #negativeIcon:hover {
-        color: var(--tag-button-negative-hover-color, var(--paper-red-900));
-      }
-
-      #positiveIcon:hover {
-        color: var(--tag-button-positive-hover-color, var(--paper-green-900));
+        --icon-button-color: var(--tag-button-positive-color, var(--paper-green-600));
+        --icon-button-hovering-color: var(--tag-button-positive-hover-color, var(--paper-green-900));
       }
 
       .text {
@@ -132,17 +120,17 @@ Custom property                     | Description                               
           <span class="text">[[tag]]</span>
 
           <div class="layout horizontal center-justified">
-            <paper-icon-button id="negativeIcon"
+            <icon-button id="negativeIcon"
               icon="[[_getIcon('negative', _classificationFromDatabase, _classificationFromUser)]]"
-              title="Toggle Negative Tag"
+              title-tooltip="Toggle Negative Tag"
               on-tap="_toggleNegative">
-            </paper-icon-button>
+            </icon-button>
 
-            <paper-icon-button id="positiveIcon"
+            <icon-button id="positiveIcon"
               icon="[[_getIcon('positive', _classificationFromDatabase, _classificationFromUser)]]"
-              title="Toggle Positive Tag"
+              title-tooltip="Toggle Positive Tag"
               on-tap="_togglePositive">
-            </paper-icon-button>
+            </icon-button>
           </div>
         </div>
       </template>
