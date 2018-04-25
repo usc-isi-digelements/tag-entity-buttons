@@ -16,7 +16,7 @@
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.2",
-    "icon-button": "DigElements/icon-button#2.0.0",
+    "icon-button": "DigElements/icon-button#2.0.1",
     "iron-flex-layout": "PolymerElements/iron-flex-layout#^2.0.0",
     "paper-styles": "PolymerElements/paper-styles#^2.0.0"
   },
