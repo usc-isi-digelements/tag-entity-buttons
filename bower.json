@@ -2,7 +2,7 @@
   "name": "tag-entity-buttons",
   "description":
     "A Polymer Element showing buttons to classify an entity as either positive or negative for one or more tags.",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "authors": ["Next Century Corporation"],
   "license": "Apache-2.0",
   "keywords": ["web-component", "polymer"],
@@ -11,7 +11,7 @@
   "ignore": ["/.*", "/test/"],
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.2",
-    "icon-button": "https://github.com/KimQ0126/icon-button.git#2.0.2",
+    "icon-button": "usc-isi-digelements/icon-button#^2.0.2",
     "iron-flex-layout": "PolymerElements/iron-flex-layout#^2.0.0",
     "paper-styles": "PolymerElements/paper-styles#^2.0.0"
   },
